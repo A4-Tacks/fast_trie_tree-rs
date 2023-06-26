@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")] // use readme
+
 use std::{
     borrow::Borrow,
     hash::Hash, fmt::Debug,
@@ -5,11 +7,19 @@ use std::{
 
 mod trie_node;
 
-use trie_node::{TrieNode, iter::Iter};
+use trie_node::TrieNode;
+pub use trie_node::iter::Iter;
 
 #[cfg(test)]
 mod tests;
 
+/// A TrieTree that supports the following functions:
+/// ===
+/// * Insert values
+/// * Remove values
+/// * Traversal values
+/// * Prefix lookup values
+/// * Debug Struct
 pub struct TrieTree<T>
 {
     root: TrieNode<T>,
