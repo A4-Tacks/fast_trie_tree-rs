@@ -1,0 +1,17 @@
+[package]
+name = "fast_trie_tree"
+version = "0.1.0"
+edition = "2021"
+
+authors = ["A4-Tacks <wdsjxhno1001@163.com>"]
+keywords = ["trie", "tree", "fast"]
+description = "A fast `TrieTree` for multiple data types"
+
+license = "MIT"
+repository = "https://github.com/A4-Tacks/fast_trie_tree-rs"
+
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
