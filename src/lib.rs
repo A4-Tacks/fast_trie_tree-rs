@@ -130,6 +130,23 @@ where T: Hash + Eq,
     }
 }
 
+impl<T> From<TrieNode<T>> for TrieTree<T>
+where T: Hash + Eq,
+{
+    fn from(mut root: TrieNode<T>) -> Self {
+        let mut count = 0;
+        root.map_nodes_last_root(&mut |node: &mut TrieNode<T>| {
+            if node.is_stop() {
+                count += 1;
+            }
+        });
+        Self {
+            root,
+            count
+        }
+    }
+}
+
 impl<T> TrieTree<T>
 where T: Hash + Eq
 {

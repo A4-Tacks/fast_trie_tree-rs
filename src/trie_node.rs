@@ -7,8 +7,8 @@ use std::{
     hash::Hash
 };
 
+use crate::TrieTree;
 use self::iter::Iter;
-
 
 
 pub(crate) struct TrieNode<T> {
@@ -148,6 +148,14 @@ impl<T> TrieNode<T> {
         }
         f(self)?;
         Ok(())
+    }
+}
+
+impl<T> From<TrieTree<T>> for TrieNode<T>
+where T: Hash + Eq
+{
+    fn from(tree: TrieTree<T>) -> Self {
+        tree.root
     }
 }
 
