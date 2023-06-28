@@ -322,7 +322,7 @@ where T: Hash + Eq
     /// tree.shrink_to_fit();
     /// ```
     pub fn shrink_to_fit(&mut self) {
-        self.root.op_nodes_first_root(&mut |node| {
+        self.root.map_nodes_first_root(&mut |node| {
             node.childs_mut().shrink_to_fit()
         })
     }

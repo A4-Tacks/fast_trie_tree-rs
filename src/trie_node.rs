@@ -101,6 +101,54 @@ impl<T> TrieNode<T> {
     pub fn iter(&self) -> Iter<T> {
         self.into()
     }
+
+    /// 使用指定函数先根序操作每个节点
+    #[allow(unused)]
+    pub fn map_nodes_first_root<F>(&mut self, f: &mut F)
+    where F: FnMut(&mut Self)
+    {
+        f(self);
+        self.childs_mut().values_mut().for_each(|child| {
+            child.map_nodes_first_root(f);
+        });
+    }
+
+    /// 使用指定函数后根序操作每个节点
+    #[allow(unused)]
+    pub fn map_nodes_last_root<F>(&mut self, f: &mut F)
+    where F: FnMut(&mut Self)
+    {
+        self.childs_mut().values_mut().for_each(|child| {
+            child.map_nodes_last_root(f)
+        });
+        f(self);
+    }
+
+    /// 使用指定函数先根序操作每个节点
+    /// 并且遇到可能的错误进行返回
+    #[allow(unused)]
+    pub fn try_map_nodes_first_root<F, E>(&mut self, f: &mut F) -> Result<(), E>
+    where F: FnMut(&mut Self) -> Result<(), E>
+    {
+        f(self)?;
+        for child in self.childs_mut().values_mut() {
+            child.try_map_nodes_first_root(f)?
+        }
+        Ok(())
+    }
+
+    /// 使用指定函数后根序操作每个节点
+    /// 并且遇到可能的错误进行返回
+    #[allow(unused)]
+    pub fn try_map_nodes_last_root<F, E>(&mut self, f: &mut F) -> Result<(), E>
+    where F: FnMut(&mut Self) -> Result<(), E>
+    {
+        for child in self.childs_mut().values_mut() {
+            child.try_map_nodes_last_root(f)?
+        }
+        f(self)?;
+        Ok(())
+    }
 }
 
 impl<T> TrieNode<T>
@@ -246,53 +294,5 @@ where T: Hash + Eq
             root.set_stop();
             true
         }
-    }
-
-    /// 使用指定函数先根序操作每个节点
-    #[allow(unused)]
-    pub fn op_nodes_first_root<F>(&mut self, f: &mut F)
-    where F: FnMut(&mut Self)
-    {
-        f(self);
-        self.childs_mut().values_mut().for_each(|child| {
-            child.op_nodes_first_root(f);
-        });
-    }
-
-    /// 使用指定函数后根序操作每个节点
-    #[allow(unused)]
-    pub fn op_nodes_last_root<F>(&mut self, f: &mut F)
-    where F: FnMut(&mut Self)
-    {
-        self.childs_mut().values_mut().for_each(|child| {
-            child.op_nodes_last_root(f)
-        });
-        f(self);
-    }
-
-    /// 使用指定函数先根序操作每个节点
-    /// 并且遇到可能的错误进行返回
-    #[allow(unused)]
-    pub fn try_op_nodes_first_root<F, E>(&mut self, f: &mut F) -> Result<(), E>
-    where F: FnMut(&mut Self) -> Result<(), E>
-    {
-        f(self)?;
-        for child in self.childs_mut().values_mut() {
-            child.try_op_nodes_first_root(f)?
-        }
-        Ok(())
-    }
-
-    /// 使用指定函数后根序操作每个节点
-    /// 并且遇到可能的错误进行返回
-    #[allow(unused)]
-    pub fn try_op_nodes_last_root<F, E>(&mut self, f: &mut F) -> Result<(), E>
-    where F: FnMut(&mut Self) -> Result<(), E>
-    {
-        for child in self.childs_mut().values_mut() {
-            child.try_op_nodes_last_root(f)?
-        }
-        f(self)?;
-        Ok(())
     }
 }
