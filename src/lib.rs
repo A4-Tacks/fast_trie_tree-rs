@@ -290,7 +290,7 @@ where T: Hash + Eq
     unsafe fn remove_no_clean<Q>(
         &mut self,
         iter: impl IntoIterator<Item = Q>
-        ) -> bool
+    ) -> bool
     where Q: Borrow<T>
     {
         let res = self.root.remove(iter.into_iter());
@@ -312,5 +312,18 @@ where T: Hash + Eq
     /// ```
     pub fn iter(&self) -> Iter<T> {
         self.root.iter()
+    }
+
+    /// Shrink each `HashMap` in the tree
+    /// # Examples
+    /// ```
+    /// # use fast_trie_tree::TrieTree;
+    /// let mut tree = TrieTree::from_iter(["abc".chars(), "bcd".chars()]);
+    /// tree.shrink_to_fit();
+    /// ```
+    pub fn shrink_to_fit(&mut self) {
+        self.root.op_nodes_first_root(&mut |node| {
+            node.childs_mut().shrink_to_fit()
+        })
     }
 }
