@@ -237,3 +237,13 @@ fn example() {
     assert_eq!(res, [[&2, &6, &1], [&5, &7, &9]]);
     assert_eq!(byte_tree.count(), 3);
 }
+
+#[test]
+fn tree_from_node() {
+    let tree: TrieTree<_> = TrieTree::from_iter(TEST_NUMS);
+    let count = tree.count();
+    let root: TrieNode<_> = tree.clone().into();
+    let new_tree: TrieTree<_> = root.into();
+    assert_eq!(new_tree.count(), count);
+    assert_eq!(new_tree, tree);
+}
