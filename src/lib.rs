@@ -85,6 +85,18 @@ impl<T> AsRef<Self> for TrieTree<T> {
 
 impl<T> TrieTree<T> {
     /// return values count
+    /// # Examples
+    /// ```
+    /// # use fast_trie_tree::TrieTree;
+    /// let mut tree = TrieTree::new();
+    /// assert_eq!(tree.count(), 0);
+    /// tree.insert([]);
+    /// assert_eq!(tree.count(), 1);
+    /// tree.insert([1, 2, 3]);
+    /// assert_eq!(tree.count(), 2);
+    /// assert!(tree.remove(&[]));
+    /// assert_eq!(tree.count(), 1);
+    /// ```
     pub fn count(&self) -> usize {
         self.count
     }
@@ -167,7 +179,8 @@ where T: Hash + Eq
         Self::default()
     }
 
-    /// clear all values
+    /// clear all values<br/>
+    /// It will directly discard the old root and replace them with new ones
     /// # Examples
     /// ```
     /// # use fast_trie_tree::TrieTree;
