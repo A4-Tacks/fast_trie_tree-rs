@@ -65,6 +65,17 @@ const TEST_NUMS: [&[i32]; 59] = {
 };
 
 #[test]
+fn test_nums_test() {
+    use std::collections::HashSet;
+
+    let mut set = HashSet::with_capacity(TEST_NUMS.len());
+    for i in TEST_NUMS {
+        // 测试测试数据集是否有重复项
+        assert!(set.insert(i));
+    }
+}
+
+#[test]
 fn count_test() {
     let mut tree = TrieTree::default();
     assert_eq!(tree.count(), 0);
@@ -246,4 +257,19 @@ fn tree_from_node() {
     let new_tree: TrieTree<_> = root.into();
     assert_eq!(new_tree.count(), count);
     assert_eq!(new_tree, tree);
+}
+
+#[test]
+fn test_ref_into_iter() {
+    let mut data = TEST_NUMS;
+    data.sort();
+    let tree = TrieTree::from_iter(data);
+    let mut vals = (&tree).into_iter().collect::<Vec<_>>();
+    vals.sort();
+    for (a, b) in vals.into_iter().zip(data) {
+        // equals
+        for (&&a, &b) in a.into_iter().zip(b) {
+            assert_eq!(a, b);
+        }
+    }
 }

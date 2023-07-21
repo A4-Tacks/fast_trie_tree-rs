@@ -147,6 +147,17 @@ where T: Hash + Eq,
     }
 }
 
+impl<'a, T> IntoIterator for &'a TrieTree<T>
+where T: Hash + Eq
+{
+    type Item = Vec<&'a T>;
+    type IntoIter = Iter<'a, T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 impl<T> TrieTree<T>
 where T: Hash + Eq
 {
