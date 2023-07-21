@@ -242,6 +242,7 @@ where T: Hash + Eq
     }
 
     /// Whether the query values head is in the tree
+    ///
     /// Result list examples
     /// ---
     /// | query | data |   result    |
@@ -255,8 +256,8 @@ where T: Hash + Eq
     /// ```
     /// # use fast_trie_tree::TrieTree;
     /// let mut tree = TrieTree::new();
-    /// assert_eq!(tree.query_nostop("".chars()),       Some(false));
     /// assert!(tree.insert("abcd".chars()));
+    /// assert_eq!(tree.query_nostop("".chars()),       Some(false));
     /// assert_eq!(tree.query_nostop("abc".chars()),    Some(false));
     /// assert_eq!(tree.query_nostop("abcd".chars()),   Some(true));
     /// assert_eq!(tree.query_nostop("bcd".chars()),    None);
